@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         屏蔽抖音礼物栏
-// @downloadURL  https://example.com/myscript.user.js
-// @updateURL    https://example.com/myscript.user.js
-// @namespace    http://tampermonkey.net/
+// @name         抖音页面脚本
+// @downloadURL  https://github.com/fangfuzha/Douyin-Interface-Optimizer/raw/main/%E6%8A%96%E9%9F%B3%E7%9B%B4%E6%92%AD%E7%95%8C%E9%9D%A2%E8%84%9A%E6%9C%AC.user.js
+// @updateURL    https://github.com/fangfuzha/Douyin-Interface-Optimizer/raw/main/%E6%8A%96%E9%9F%B3%E7%9B%B4%E6%92%AD%E7%95%8C%E9%9D%A2%E8%84%9A%E6%9C%AC.user.js
+// @namespace    https://github.com/fangfuzha/Douyin-Interface-Optimizer
 // @version      1.0
 // @description  屏蔽抖音直播界面的礼物栏和相关元素
 // @author       fangfuzha
