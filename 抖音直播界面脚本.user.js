@@ -37,19 +37,10 @@
       document.head.appendChild(style); //将样式节点添加到文档头部
     }
   }
-  // 隐藏指定元素节点下的所有目标元素
+  // 隐藏指定元素节点下的所有目标元素（保留）
   function 隐藏目标元素(元素节点) {
     屏蔽元素选择器列表.forEach(元素选择器 => {
       const 匹配元素列表 = 元素节点.querySelectorAll(元素选择器);
-      匹配元素列表.forEach(el => {
-        el.style.display = 'none !important';
-      });
-    });
-  }
-  // 初始化隐藏页面已有目标元素
-  function 初始化隐藏() {
-    屏蔽元素选择器列表.forEach(元素选择器 => {
-      const 匹配元素列表 = document.querySelectorAll(元素选择器);
       匹配元素列表.forEach(el => {
         el.style.display = 'none !important';
       });
@@ -71,20 +62,13 @@
           // 按钮容器
           const 按钮容器列表 = 设置项.querySelectorAll('div.dNuSIvAp.K9BEa4Mr');
           按钮容器列表.forEach(按钮容器 => {
-            // 只保留 dNuSIvAp 和 K9BEa4Mr
-            按钮容器.classList.forEach(cls => {
-              if (cls !== 'dNuSIvAp' && cls !== 'K9BEa4Mr') {
-                按钮容器.classList.remove(cls);
+            if (按钮容器.classList.contains('SpsbqNUm')) {
+              // 如果按钮为打开状态，自动点击关闭
+              if (typeof 按钮容器.click === 'function') {
+                按钮容器.click();
               }
-            });
-            const 按钮内部滑块列表 = 按钮容器.querySelectorAll('div.Cri3cNdU');
-            按钮内部滑块列表.forEach(btn => {
-              btn.classList.forEach(cls => {
-                if (cls !== 'Cri3cNdU') {
-                  btn.classList.remove(cls);
-                }
-              });
-            });
+              return;
+            }
           });
         });
       });
@@ -121,12 +105,14 @@
   const 观察器 = new MutationObserver((mutations) => {
     mutations.forEach(mutation => {
       if (mutation.type === 'childList' || mutation.type === 'attributes') {
-        const 新增节点列表 = mutation.addedNodes || [];
-        for (let i = 0; i < 新增节点列表.length; i++) {
-          if (新增节点列表[i].nodeType === 1) {
-            隐藏目标元素(新增节点列表[i]);
-          }
-        }
+        // const 新增节点列表 = mutation.addedNodes || [];
+        // for (let i = 0; i < 新增节点列表.length; i++) {
+        //   if (新增节点列表[i].nodeType === 1) {
+        //     隐藏目标元素(新增节点列表[i]);
+        //   }
+        // }
+        // 以上注释内容非必要，但是保留以防万一
+
         // 弹幕容器弹出时关闭
         关闭送礼信息and福袋口令();
         自动点击屏蔽礼物特效后一个容器();
@@ -134,15 +120,14 @@
     });
   });
 
-  初始化隐藏();
-
   if (document.body) {
     观察器.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['class']
+      childList: true, // 监听子节点变化
+      subtree: true, // 监听所有子节点
+      attributes: true, // 监听属性变化
+      attributeFilter: ['class'] // 只监听 class 属性变化，减少性能消耗
     });
+    // 页面卸载时断开观察器
     window.addEventListener('beforeunload', () => {
       观察器.disconnect();
     });
