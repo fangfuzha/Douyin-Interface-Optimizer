@@ -62,6 +62,3 @@ const utils = {
     });
   }
 };
-
-// 导出 utils 对象作为命名空间
-export default utils;

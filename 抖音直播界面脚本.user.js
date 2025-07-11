@@ -10,7 +10,7 @@
 // @supportURL   https://github.com/fangfuzha/Douyin-Interface-Optimizer/issues
 // @match        https://www.douyin.com*
 // @match        https://live.douyin.com/*
-// @require     https://cdn.jsdelivr.net/gh/fangfuzha/Douyin-Interface-Optimizer@main/utils.js
+// @require      https://cdn.jsdelivr.net/gh/fangfuzha/Douyin-Interface-Optimizer@main/utils.js
 // @grant        GM_addStyle
 // ==/UserScript==
 
@@ -158,7 +158,7 @@ function 自动点击屏蔽礼物特效后一个容器() {
   const 候选列表 = Array.from(document.querySelectorAll('.WoNKVQmY.Z20k_Nsy'));
   候选列表.forEach(候选项 => {
     if (候选项.textContent.trim() === '屏蔽礼物特效') {
-      点击下一个兄弟节点(候选项);
+      utils.clickNextSibling(候选项);
     }
   });
 }
@@ -168,7 +168,7 @@ function 自动点击屏蔽礼物特效后一个容器_spa跳转页面() {
   const 候选列表 = Array.from(document.querySelectorAll('.PyUjXuWV.hRnC6O2k'));
   候选列表.forEach(候选项 => {
     if (候选项.textContent.trim() === '屏蔽礼物特效') {
-      点击下一个兄弟节点(候选项);
+      utils.clickNextSibling(候选项);
     }
   });
 }
