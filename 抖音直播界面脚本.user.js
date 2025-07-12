@@ -3,14 +3,14 @@
 // @downloadURL  https://github.com/fangfuzha/Douyin-Interface-Optimizer/raw/main/%E6%8A%96%E9%9F%B3%E7%9B%B4%E6%92%AD%E7%95%8C%E9%9D%A2%E8%84%9A%E6%9C%AC.user.js
 // @updateURL    https://github.com/fangfuzha/Douyin-Interface-Optimizer/raw/main/%E6%8A%96%E9%9F%B3%E7%9B%B4%E6%92%AD%E7%95%8C%E9%9D%A2%E8%84%9A%E6%9C%AC.user.js
 // @namespace    https://github.com/fangfuzha/Douyin-Interface-Optimizer
-// @version      1.0
+// @version      1.1.0
 // @description  屏蔽抖音直播界面的礼物栏和相关元素
 // @author       fangfuzha
 // @license      MIT
 // @supportURL   https://github.com/fangfuzha/Douyin-Interface-Optimizer/issues
 // @match        https://www.douyin.com*
 // @match        https://live.douyin.com/*
-// @require      https://cdn.jsdelivr.net/gh/fangfuzha/Douyin-Interface-Optimizer@main/utils.js
+// @require      https://cdn.jsdelivr.net/gh/fangfuzha/Douyin-Interface-Optimizer@main/utils.js?v1.1.0
 // @grant        GM_addStyle
 // ==/UserScript==
 
@@ -65,29 +65,7 @@ const 切换画质相关类名 = {
   }
 };
 
-// ====== 工具函数区 ======
-// 添加样式
-function 添加样式(css) {
-  if (typeof GM_addStyle === 'function') { //如果GM_addStyle可用
-    GM_addStyle(css); //使用GM_addStyle添加样式
-  } else {
-    const style = document.createElement('style'); //创建样式节点
-    style.textContent = css; //设置样式内容
-    document.head.appendChild(style); //将样式节点添加到文档头部
-  }
-}
-// 隐藏指定元素节点下的所有目标元素（保留）
-function 隐藏目标元素(元素节点) {
-  屏蔽元素选择器列表.forEach(元素选择器 => {
-    const 匹配元素列表 = 元素节点.querySelectorAll(元素选择器);
-    匹配元素列表.forEach(el => {
-      el.style.display = 'none !important';
-    });
-  });
-}
-
-
-
+// ====== 业务函数区 ======
 // 保持送礼信息始终关闭（只移除多余 class，不全量赋值）
 function 关闭送礼信息and福袋口令() {
   const cfg = 关闭送礼信息相关类名.正常访问;
@@ -138,27 +116,13 @@ function 关闭送礼信息and福袋口令_spa跳转页面() {
   });
 }
 
-// 通用：点击指定元素在父容器下的下一个兄弟节点
-function 点击下一个兄弟节点(当前元素) {
-  if (!当前元素) return;
-  const 父容器 = 当前元素.parentElement;
-  if (!父容器) return;
-  const 兄弟节点 = Array.from(父容器.children);
-  const idx = 兄弟节点.indexOf(当前元素);
-  if (idx !== -1 && idx < 兄弟节点.length - 1) {
-    const 下一个 = 兄弟节点[idx + 1];
-    if (下一个 && typeof 下一个.click === 'function') {
-      下一个.click();
-    }
-  }
-}
 
 // 自动查找内容为“屏蔽礼物特效”并且同时拥有WoNKVQmY、Z20k_Nsy类的容器，并点击同一父类下一个容器
 function 自动点击屏蔽礼物特效后一个容器() {
   const 候选列表 = Array.from(document.querySelectorAll('.WoNKVQmY.Z20k_Nsy'));
   候选列表.forEach(候选项 => {
     if (候选项.textContent.trim() === '屏蔽礼物特效') {
-      utils.clickNextSibling(候选项);
+      utils.点击下一个兄弟节点(候选项);
     }
   });
 }
@@ -168,7 +132,7 @@ function 自动点击屏蔽礼物特效后一个容器_spa跳转页面() {
   const 候选列表 = Array.from(document.querySelectorAll('.PyUjXuWV.hRnC6O2k'));
   候选列表.forEach(候选项 => {
     if (候选项.textContent.trim() === '屏蔽礼物特效') {
-      utils.clickNextSibling(候选项);
+      utils.点击下一个兄弟节点(候选项);
     }
   });
 }
@@ -222,24 +186,13 @@ function 自动切换到原画画质_spa跳转页面() {
 }
 
 
-// 防抖函数，当函数在指定时间内不被调用，则执行该函数
-function 防抖(函数, 延时) {
-  let 定时器 = null;
-  return function (...args) {
-    if (定时器) clearTimeout(定时器); // 清除上一次的定时器
-    定时器 = setTimeout(() => { // 设置新的定时器
-      函数.apply(this, args); // 定时器到期后执行函数
-    }, 延时);
-  };
-}
-
 function 主流程启动(是否SPA跳转 = false) {
-  添加样式(元素屏蔽样式);
+  utils.添加样式(元素屏蔽样式);
   if (window.__抖音脚本_观察器) {
     window.__抖音脚本_观察器.disconnect();
   }
   // 防抖回调，200ms
-  const 变更处理函数 = 防抖(function () {
+  const 变更处理函数 = utils.防抖(function () {
     if (是否SPA跳转) {
       关闭送礼信息and福袋口令_spa跳转页面();
       自动点击屏蔽礼物特效后一个容器_spa跳转页面();

@@ -2,17 +2,17 @@
 const utils = {
   /**
    * 防抖函数，当函数在指定时间内不被调用，则执行该函数
-   * @param {Function} fn - 需要防抖的函数
-   * @param {number} delay - 防抖延迟（毫秒）
+   * @param {Function} 函数 - 需要防抖的函数
+   * @param {number} 延时 - 防抖延迟（毫秒）
    * @returns {Function}
    */
-  debounce: function (fn, delay) {
-    let timer = null;
+  防抖: function (函数, 延时) {
+    let 定时器 = null;
     return function (...args) {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => {
-        fn.apply(this, args);
-      }, delay);
+      if (定时器) clearTimeout(定时器);
+      定时器 = setTimeout(() => {
+        函数.apply(this, args);
+      }, 延时);
     };
   },
 
@@ -20,7 +20,7 @@ const utils = {
    * 点击指定元素在父容器下的下一个兄弟节点
    * @param {Element} currentEl - 当前元素
    */
-  clickNextSibling: function (currentEl) {
+  点击下一个兄弟节点: function (currentEl) {
     if (!currentEl) return;
     const parent = currentEl.parentElement;
     if (!parent) return;
@@ -38,13 +38,13 @@ const utils = {
    * 向页面添加样式
    * @param {string} css - 样式内容
    */
-  addStyle: function (css) {
-    if (typeof GM_addStyle === 'function') {
-      GM_addStyle(css);
+  添加样式: function (css) {
+    if (typeof GM_addStyle === 'function') { //如果GM_addStyle可用
+      GM_addStyle(css); //使用GM_addStyle添加样式
     } else {
-      const style = document.createElement('style');
-      style.textContent = css;
-      document.head.appendChild(style);
+      const style = document.createElement('style'); //创建样式节点
+      style.textContent = css; //设置样式内容
+      document.head.appendChild(style); //将样式节点添加到文档头部
     }
   },
 
@@ -53,7 +53,7 @@ const utils = {
    * @param {Element} rootEl - 根节点
    * @param {string[]} selectorList - 选择器数组
    */
-  hideTargetElements: function (rootEl, selectorList) {
+  隐藏目标元素: function (rootEl, selectorList) {
     selectorList.forEach(selector => {
       const matches = rootEl.querySelectorAll(selector);
       matches.forEach(el => {
